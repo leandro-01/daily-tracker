@@ -1,32 +1,51 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
-    background-color: #f0f8ff;
-    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
     text-align: center;
-    padding: 50px;
-
+    margin: 0;
+    padding: 20px;
 }
 
 h1 {
     color: #333;
-    color: #2c3e50;
 }
 
-p {
-    color: #34495e;
-    font-size: 18px;
+#task-form {
+    margin: 20px 0;
 }
 
 #task-input {
-    padding: 5px;
+    padding: 8px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
-#add-task {
-    padding: 5px 10px;
+#add-task-btn {
+    padding: 8px 12px;
+    margin-left: 5px;
+    background-color: #4caf50;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#add-task-btn:hover {
+    background-color: #45a049;
+}
+
+#task-list {
+    list-style: none;
+    padding: 0;
 }
 
 #task-list li {
-    margin: 5px 0;
+    background: #fff;
+    margin: 5px auto;
+    padding: 10px;
+    border-radius: 5px;
+    width: 250px;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-
