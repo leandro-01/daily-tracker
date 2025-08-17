@@ -1,6 +1,6 @@
-// Captura elementos
-const addTaskBtn = document.getElementById("add-task-btn");
-const taskInput = document.getElementById("task-input");
+// Seleciona os elementos
+const addTaskButton = document.getElementById("add-task");
+const taskInput = document.getElementById("new-task");
 const taskList = document.getElementById("task-list");
 
 // Função para adicionar tarefa
@@ -12,23 +12,23 @@ function addTask() {
         return;
     }
 
-    // Cria o item da lista
+    // Criar item de lista
     const li = document.createElement("li");
     li.textContent = taskText;
 
-    // Adiciona na lista
+    // Adiciona ao UL
     taskList.appendChild(li);
 
-    // Limpa o input
+    // Limpa o campo
     taskInput.value = "";
 }
 
-// Evento de clique no botão
-addTaskBtn.addEventListener("click", addTask);
+// Evento do botão
+addTaskButton.addEventListener("click", addTask);
 
-// Evento de "Enter" no input
-taskInput.addEventListener("keypress", function(e) {
-    if (e.key === "Enter") {
+// Permitir Enter no input
+taskInput.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
         addTask();
     }
 });
