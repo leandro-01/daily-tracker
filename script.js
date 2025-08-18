@@ -1,34 +1,17 @@
-// Seleciona os elementos
-const addTaskButton = document.getElementById("add-task");
-const taskInput = document.getElementById("new-task");
-const taskList = document.getElementById("task-list");
-
-// Função para adicionar tarefa
-function addTask() {
+document.getElementById("add-task").addEventListener("click", function() {
+    const taskInput = document.getElementById("task-input");
     const taskText = taskInput.value.trim();
 
-    if (taskText === "") {
-        alert("Digite uma tarefa antes de adicionar!");
-        return;
-    }
+    if (taskText !== "") {
+        const li = document.createElement("li");
+        li.textContent = taskText;
 
-    // Criar item de lista
-    const li = document.createElement("li");
-    li.textContent = taskText;
+        // Clicar na tarefa risca ela
+        li.addEventListener("click", function() {
+            li.classList.toggle("completed");
+        });
 
-    // Adiciona ao UL
-    taskList.appendChild(li);
-
-    // Limpa o campo
-    taskInput.value = "";
-}
-
-// Evento do botão
-addTaskButton.addEventListener("click", addTask);
-
-// Permitir Enter no input
-taskInput.addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-        addTask();
+        document.getElementById("task-list").appendChild(li);
+        taskInput.value = "";
     }
 });

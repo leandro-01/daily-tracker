@@ -1,39 +1,35 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
     text-align: center;
-    padding: 20px;
+    margin: 20px;
+    background: #f4f4f4;
 }
 
 h1 {
-    color: #333;
-}
-
-.task-input {
-    margin: 20px 0;
-}
-
-#new-task {
-    padding: 10px;
-    width: 200px;
-}
-
-#add-task {
-    padding: 10px 15px;
-    margin-left: 5px;
-    cursor: pointer;
+    margin-bottom: 20px;
 }
 
 #task-list {
     list-style: none;
     padding: 0;
+    max-width: 400px;
+    margin: 20px auto;
 }
 
 #task-list li {
     background: #fff;
-    margin: 5px auto;
+    margin: 5px 0;
     padding: 10px;
-    width: 250px;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#task-list li:hover {
+    background: #e6e6e6;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: gray;
 }
