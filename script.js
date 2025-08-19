@@ -1,17 +1,19 @@
-document.getElementById("add-task").addEventListener("click", function() {
-    const taskInput = document.getElementById("task-input");
-    const taskText = taskInput.value.trim();
+const taskInput = document.getElementById("task-input");
+const addTaskBtn = document.getElementById("add-task");
+const taskList = document.getElementById("task-list");
 
+addTaskBtn.addEventListener("click", () => {
+    const taskText = taskInput.value.trim();
     if (taskText !== "") {
         const li = document.createElement("li");
         li.textContent = taskText;
 
-        // Clicar na tarefa risca ela
+        // Marca a tarefa como concluída ao clicar
         li.addEventListener("click", function() {
             li.classList.toggle("completed");
         });
 
-        document.getElementById("task-list").appendChild(li);
+        taskList.appendChild(li);
         taskInput.value = "";
     }
 });
