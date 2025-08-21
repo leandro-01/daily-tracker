@@ -8,12 +8,20 @@
 </head>
 <body>
     <div class="container">
-        <h1>Daily Tracker ✅</h1>
+        <h1>Daily Tracker</h1>
         <div class="input-container">
             <input type="text" id="taskInput" placeholder="Digite uma tarefa...">
             <button id="addTaskBtn">Adicionar</button>
         </div>
         <ul id="taskList"></ul>
+        <div class="stats">
+            <p>Total: <span id="totalCount">0</span></p>
+            <p>Concluídas: <span id="completedCount">0</span></p>
+            <p>Pendentes: <span id="pendingCount">0</span></p>
+        </div>
+        <div class="actions">
+            <button id="clearTasksBtn">Limpar todas</button>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
