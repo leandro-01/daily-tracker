@@ -1,74 +1,21 @@
-document.addEventListener("DOMContentLoaded", loadTasks);
-
 const taskInput = document.getElementById("taskInput");
 const addTaskBtn = document.getElementById("addTaskBtn");
 const taskList = document.getElementById("taskList");
-const clearTasksBtn = document.getElementById("clearTasksBtn");
+const clearCompletedBtn = document.getElementById("clearCompleted");
+const clearAllBtn = document.getElementById("clearAll");
+const progressText = document.getElementById("progressText");
 
-const totalCount = document.getElementById("totalCount");
-const completedCount = document.getElementById("completedCount");
-const pendingCount = document.getElementById("pendingCount");
-
-addTaskBtn.addEventListener("click", addTask);
-clearTasksBtn.addEventListener("click", clearTasks);
-
-function addTask() {
-    const taskText = taskInput.value.trim();
-    if (taskText === "") return;
-
-    const li = createTaskElement(taskText);
-    taskList.appendChild(li);
-
-    saveTasks();
-    updateStats();
-    taskInput.value = "";
-}
-
-function createTaskElement(taskText, completed = false) {
-    const li = document.createElement("li");
-    if (completed) li.classList.add("completed");
-
-    const span = document.createElement("span");
-    span.textContent = taskText;
-    span.addEventListener("click", function () {
-        li.classList.toggle("completed");
-        saveTasks();
-        updateStats();
-    });
-
-    const editBtn = document.createElement("button");
-    editBtn.textContent = "Editar";
-    editBtn.style.backgroundColor = "#28a745";
-    editBtn.addEventListener("click", function () {
-        const newText = prompt("Edite a tarefa:", span.textContent);
-        if (newText !== null && newText.trim() !== "") {
-            span.textContent = newText.trim();
-            saveTasks();
-            updateStats();
-        }
-    });
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Excluir";
-    deleteBtn.style.backgroundColor = "#dc3545";
-    deleteBtn.addEventListener("click", function () {
-        li.remove();
-        saveTasks();
-        updateStats();
-    });
-
-    li.appendChild(span);
-    li.appendChild(editBtn);
-    li.appendChild(deleteBtn);
-
-    return li;
+function updateProgress() {
+    const tasks = document.querySelectorAll("li");
+    const completed = document.querySelectorAll("li.completed");
+    progressText.textContent = `Progresso: ${completed.length}/${tasks.length}`;
 }
 
 function saveTasks() {
     const tasks = [];
-    document.querySelectorAll("#taskList li").forEach(li => {
+    document.querySelectorAll("li").forEach(li => {
         tasks.push({
-            text: li.querySelector("span").textContent,
+            text: li.querySelector(".task-text").textContent,
             completed: li.classList.contains("completed")
         });
     });
@@ -76,27 +23,64 @@ function saveTasks() {
 }
 
 function loadTasks() {
-    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-    tasks.forEach(task => {
-        const li = createTaskElement(task.text, task.completed);
-        taskList.appendChild(li);
-    });
-    updateStats();
+    const saved = JSON.parse(localStorage.getItem("tasks")) || [];
+    saved.forEach(task => addTask(task.text, task.completed));
+    updateProgress();
 }
 
-function clearTasks() {
+function addTask(text, completed = false) {
+    if (text.trim() === "") return;
+
+    const li = document.createElement("li");
+
+    const span = document.createElement("span");
+    span.textContent = text;
+    span.classList.add("task-text");
+    li.appendChild(span);
+
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "❌";
+    removeBtn.style.marginLeft = "10px";
+
+    removeBtn.addEventListener("click", function() {
+        li.remove();
+        saveTasks();
+        updateProgress();
+    });
+
+    li.appendChild(removeBtn);
+
+    li.addEventListener("click", function(e) {
+        if (e.target.tagName !== "BUTTON") {
+            li.classList.toggle("completed");
+            saveTasks();
+            updateProgress();
+        }
+    });
+
+    if (completed) li.classList.add("completed");
+
+    taskList.appendChild(li);
+    taskInput.value = "";
+    saveTasks();
+    updateProgress();
+}
+
+addTaskBtn.addEventListener("click", () => addTask(taskInput.value));
+taskInput.addEventListener("keypress", e => {
+    if (e.key === "Enter") addTask(taskInput.value);
+});
+
+clearCompletedBtn.addEventListener("click", () => {
+    document.querySelectorAll("li.completed").forEach(li => li.remove());
+    saveTasks();
+    updateProgress();
+});
+
+clearAllBtn.addEventListener("click", () => {
     taskList.innerHTML = "";
     saveTasks();
-    updateStats();
-}
+    updateProgress();
+});
 
-function updateStats() {
-    const tasks = document.querySelectorAll("#taskList li");
-    const total = tasks.length;
-    const completed = document.querySelectorAll("#taskList li.completed").length;
-    const pending = total - completed;
-
-    totalCount.textContent = total;
-    completedCount.textContent = completed;
-    pendingCount.textContent = pending;
-}
+loadTasks();
