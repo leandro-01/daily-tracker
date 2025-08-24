@@ -1,86 +1,60 @@
-const taskInput = document.getElementById("taskInput");
-const addTaskBtn = document.getElementById("addTaskBtn");
-const taskList = document.getElementById("taskList");
-const clearCompletedBtn = document.getElementById("clearCompleted");
-const clearAllBtn = document.getElementById("clearAll");
-const progressText = document.getElementById("progressText");
+const taskInput = document.getElementById('taskInput');
+const addTaskBtn = document.getElementById('addTaskBtn');
+const taskList = document.getElementById('taskList');
+const clearCompletedBtn = document.getElementById('clearCompletedBtn');
+const clearAllBtn = document.getElementById('clearAllBtn');
 
-function updateProgress() {
-    const tasks = document.querySelectorAll("li");
-    const completed = document.querySelectorAll("li.completed");
-    progressText.textContent = `Progresso: ${completed.length}/${tasks.length}`;
-}
+// Função para criar tarefa
+function createTask(taskText, completed = false) {
+    const li = document.createElement('li');
+    li.textContent = taskText;
+    if (completed) li.classList.add('completed');
 
-function saveTasks() {
-    const tasks = [];
-    document.querySelectorAll("li").forEach(li => {
-        tasks.push({
-            text: li.querySelector(".task-text").textContent,
-            completed: li.classList.contains("completed")
-        });
-    });
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-}
-
-function loadTasks() {
-    const saved = JSON.parse(localStorage.getItem("tasks")) || [];
-    saved.forEach(task => addTask(task.text, task.completed));
-    updateProgress();
-}
-
-function addTask(text, completed = false) {
-    if (text.trim() === "") return;
-
-    const li = document.createElement("li");
-
-    const span = document.createElement("span");
-    span.textContent = text;
-    span.classList.add("task-text");
-    li.appendChild(span);
-
-    const removeBtn = document.createElement("button");
-    removeBtn.textContent = "❌";
-    removeBtn.style.marginLeft = "10px";
-
-    removeBtn.addEventListener("click", function() {
-        li.remove();
+    li.addEventListener('click', () => {
+        li.classList.toggle('completed');
         saveTasks();
-        updateProgress();
     });
-
-    li.appendChild(removeBtn);
-
-    li.addEventListener("click", function(e) {
-        if (e.target.tagName !== "BUTTON") {
-            li.classList.toggle("completed");
-            saveTasks();
-            updateProgress();
-        }
-    });
-
-    if (completed) li.classList.add("completed");
 
     taskList.appendChild(li);
-    taskInput.value = "";
-    saveTasks();
-    updateProgress();
 }
 
-addTaskBtn.addEventListener("click", () => addTask(taskInput.value));
-taskInput.addEventListener("keypress", e => {
-    if (e.key === "Enter") addTask(taskInput.value);
+// Adicionar tarefa
+addTaskBtn.addEventListener('click', () => {
+    const taskText = taskInput.value.trim();
+    if (taskText) {
+        createTask(taskText);
+        taskInput.value = '';
+        saveTasks();
+    }
 });
 
-clearCompletedBtn.addEventListener("click", () => {
-    document.querySelectorAll("li.completed").forEach(li => li.remove());
+// Limpar tarefas concluídas
+clearCompletedBtn.addEventListener('click', () => {
+    const completedTasks = document.querySelectorAll('li.completed');
+    completedTasks.forEach(task => task.remove());
     saveTasks();
-    updateProgress();
 });
 
-clearAllBtn.addEventListener("click", () => {
-    taskList.innerHTML = "";
+// Limpar todas as tarefas
+clearAllBtn.addEventListener('click', () => {
+    taskList.innerHTML = '';
     saveTasks();
-    updateProgress();
 });
 
+// Salvar tarefas no localStorage
+function saveTasks() {
+    const tasks = [];
+    taskList.querySelectorAll('li').forEach(task => {
+        tasks.push({ text: task.textContent, completed: task.classList.contains('completed') });
+    });
+    localStorage.setItem('dailyTasks', JSON.stringify(tasks));
+}
+
+// Carregar tarefas salvas
+function loadTasks() {
+    const savedTasks = JSON.parse(localStorage.getItem('dailyTasks')) || [];
+    savedTasks.forEach(task => createTask(task.text, task.completed));
+}
+
+// Inicialização
 loadTasks();
