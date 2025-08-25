@@ -1,24 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Tracker</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Tracker</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Daily Tracker</h1>
-        <div class="input-section">
-            <input type="text" id="taskInput" placeholder="Adicione uma nova tarefa...">
-            <button id="addTaskBtn">Adicionar</button>
-        </div>
-        <ul id="taskList"></ul>
-        <div class="actions">
-            <button id="clearCompletedBtn">Limpar Concluídas</button>
-            <button id="clearAllBtn">Limpar Todas</button>
-        </div>
+  <div class="tracker-container">
+    <h1>Daily Tracker</h1>
+    <p id="day-counter">Você está no <span id="current-day">1</span>º dia!</p>
+    <div class="buttons">
+      <button id="next-day">Avançar Dia</button>
+      <button id="reset-day" class="reset">Resetar</button>
     </div>
-    <script src="script.js"></script>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
