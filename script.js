@@ -1,25 +1,84 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const currentDayElement = document.getElementById("current-day");
-  const nextDayButton = document.getElementById("next-day");
-  const resetDayButton = document.getElementById("reset-day");
+const taskInput = document.getElementById("taskInput");
+const addTaskBtn = document.getElementById("addTaskBtn");
+const taskList = document.getElementById("taskList");
+const filterTasks = document.getElementById("filterTasks");
+const totalTasks = document.getElementById("totalTasks");
+const completedTasks = document.getElementById("completedTasks");
+const pendingTasks = document.getElementById("pendingTasks");
+const clearAll = document.getElementById("clearAll");
+const prioritySelect = document.getElementById("prioritySelect");
 
-  let currentDay = localStorage.getItem("trackerDay") 
-    ? parseInt(localStorage.getItem("trackerDay")) 
-    : 1;
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-  currentDayElement.textContent = currentDay;
+function renderTasks() {
+  taskList.innerHTML = "";
+  let filteredTasks = tasks;
 
-  nextDayButton.addEventListener("click", () => {
-    currentDay++;
-    currentDayElement.textContent = currentDay;
-    localStorage.setItem("trackerDay", currentDay);
+  if (filterTasks.value === "completed") {
+    filteredTasks = tasks.filter(task => task.completed);
+  } else if (filterTasks.value === "pending") {
+    filteredTasks = tasks.filter(task => !task.completed);
+  }
+
+  filteredTasks.forEach((task, index) => {
+    const li = document.createElement("li");
+    li.textContent = task.text;
+    li.classList.add(`priority-${task.priority}`);
+    if (task.completed) li.classList.add("completed");
+
+    li.addEventListener("click", () => toggleTask(index));
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "X";
+    deleteBtn.classList.add("delete-btn");
+    deleteBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      deleteTask(index);
+    });
+
+    li.appendChild(deleteBtn);
+    taskList.appendChild(li);
   });
 
-  resetDayButton.addEventListener("click", () => {
-    if (confirm("Tem certeza que deseja resetar o progresso?")) {
-      currentDay = 1;
-      currentDayElement.textContent = currentDay;
-      localStorage.setItem("trackerDay", currentDay);
-    }
-  });
+  updateStats();
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function addTask() {
+  const text = taskInput.value.trim();
+  const priority = prioritySelect.value;
+  if (text === "") return;
+  tasks.push({ text, completed: false, priority });
+  taskInput.value = "";
+  renderTasks();
+}
+
+function toggleTask(index) {
+  tasks[index].completed = !tasks[index].completed;
+  renderTasks();
+}
+
+function deleteTask(index) {
+  tasks.splice(index, 1);
+  renderTasks();
+}
+
+function updateStats() {
+  totalTasks.textContent = tasks.length;
+  completedTasks.textContent = tasks.filter(t => t.completed).length;
+  pendingTasks.textContent = tasks.filter(t => !t.completed).length;
+}
+
+function clearAllTasks() {
+  tasks = [];
+  renderTasks();
+}
+
+addTaskBtn.addEventListener("click", addTask);
+taskInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") addTask();
 });
+filterTasks.addEventListener("change", renderTasks);
+clearAll.addEventListener("click", clearAllTasks);
+
+renderTasks();

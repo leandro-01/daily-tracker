@@ -1,61 +1,104 @@
 body {
   font-family: Arial, sans-serif;
-  background: linear-gradient(to right, #4facfe, #00f2fe);
+  background: #f2f2f2;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  margin: 0;
 }
 
-.tracker-container {
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
+.app-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  width: 380px;
   text-align: center;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  width: 320px;
 }
 
 h1 {
-  margin-bottom: 20px;
-  color: #333;
+  margin-bottom: 15px;
 }
 
-#day-counter {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
+.input-section {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
 }
 
-.buttons {
+.input-section input {
+  flex: 1;
+  padding: 8px;
+}
+
+.input-section select {
+  padding: 8px;
+}
+
+.input-section button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.filter-section {
+  margin-bottom: 15px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+
+li {
+  background: #f9f9f9;
+  margin-bottom: 6px;
+  padding: 8px;
+  border-radius: 6px;
   display: flex;
   justify-content: space-between;
-  gap: 10px;
+  align-items: center;
+}
+
+li.completed {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.stats {
+  margin-bottom: 15px;
 }
 
 button {
-  padding: 10px;
   border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: 0.3s;
-}
-
-#next-day {
-  background: #4caf50;
+  background: #4CAF50;
   color: white;
+  border-radius: 6px;
 }
 
-#next-day:hover {
+button:hover {
   background: #45a049;
 }
 
-.reset {
-  background: #e53935;
+.delete-btn {
+  background: red;
   color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-.reset:hover {
-  background: #c62828;
+.priority-baixa {
+  border-left: 6px solid #4CAF50;
+}
+
+.priority-media {
+  border-left: 6px solid #FFC107;
+}
+
+.priority-alta {
+  border-left: 6px solid #F44336;
 }
