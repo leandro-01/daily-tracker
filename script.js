@@ -1,84 +1,107 @@
-const taskInput = document.getElementById("taskInput");
-const addTaskBtn = document.getElementById("addTaskBtn");
-const taskList = document.getElementById("taskList");
-const filterTasks = document.getElementById("filterTasks");
-const totalTasks = document.getElementById("totalTasks");
-const completedTasks = document.getElementById("completedTasks");
-const pendingTasks = document.getElementById("pendingTasks");
-const clearAll = document.getElementById("clearAll");
-const prioritySelect = document.getElementById("prioritySelect");
+document.addEventListener("DOMContentLoaded", () => {
+  const taskInput = document.getElementById("taskInput");
+  const addTaskBtn = document.getElementById("addTaskBtn");
+  const taskList = document.getElementById("taskList");
+  const progressBar = document.getElementById("progressBar");
+  const progressText = document.getElementById("progressText");
 
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  const noteInput = document.getElementById("noteInput");
+  const addNoteBtn = document.getElementById("addNoteBtn");
+  const noteList = document.getElementById("noteList");
 
-function renderTasks() {
-  taskList.innerHTML = "";
-  let filteredTasks = tasks;
+  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  let notes = JSON.parse(localStorage.getItem("notes")) || [];
 
-  if (filterTasks.value === "completed") {
-    filteredTasks = tasks.filter(task => task.completed);
-  } else if (filterTasks.value === "pending") {
-    filteredTasks = tasks.filter(task => !task.completed);
+  function renderTasks() {
+    taskList.innerHTML = "";
+    tasks.forEach((task, index) => {
+      const li = document.createElement("li");
+      li.textContent = task.text;
+      if (task.completed) li.classList.add("completed");
+
+      li.addEventListener("click", () => toggleTask(index));
+
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "X";
+      delBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        deleteTask(index);
+      });
+
+      li.appendChild(delBtn);
+      taskList.appendChild(li);
+    });
+    updateProgress();
   }
 
-  filteredTasks.forEach((task, index) => {
-    const li = document.createElement("li");
-    li.textContent = task.text;
-    li.classList.add(`priority-${task.priority}`);
-    if (task.completed) li.classList.add("completed");
+  function renderNotes() {
+    noteList.innerHTML = "";
+    notes.forEach((note, index) => {
+      const li = document.createElement("li");
+      li.textContent = note;
 
-    li.addEventListener("click", () => toggleTask(index));
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "X";
+      delBtn.addEventListener("click", () => deleteNote(index));
 
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "X";
-    deleteBtn.classList.add("delete-btn");
-    deleteBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      deleteTask(index);
+      li.appendChild(delBtn);
+      noteList.appendChild(li);
     });
+  }
 
-    li.appendChild(deleteBtn);
-    taskList.appendChild(li);
-  });
+  function addTask() {
+    const text = taskInput.value.trim();
+    if (text !== "") {
+      tasks.push({ text, completed: false });
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+      renderTasks();
+      taskInput.value = "";
+    }
+  }
 
-  updateStats();
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-}
+  function toggleTask(index) {
+    tasks[index].completed = !tasks[index].completed;
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderTasks();
+  }
 
-function addTask() {
-  const text = taskInput.value.trim();
-  const priority = prioritySelect.value;
-  if (text === "") return;
-  tasks.push({ text, completed: false, priority });
-  taskInput.value = "";
+  function deleteTask(index) {
+    tasks.splice(index, 1);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderTasks();
+  }
+
+  function updateProgress() {
+    if (tasks.length === 0) {
+      progressBar.value = 0;
+      progressText.textContent = "0% concluído";
+      return;
+    }
+    const completedTasks = tasks.filter(t => t.completed).length;
+    const percent = Math.round((completedTasks / tasks.length) * 100);
+    progressBar.value = percent;
+    progressText.textContent = `${percent}% concluído`;
+  }
+
+  function addNote() {
+    const text = noteInput.value.trim();
+    if (text !== "") {
+      notes.push(text);
+      localStorage.setItem("notes", JSON.stringify(notes));
+      renderNotes();
+      noteInput.value = "";
+    }
+  }
+
+  function deleteNote(index) {
+    notes.splice(index, 1);
+    localStorage.setItem("notes", JSON.stringify(notes));
+    renderNotes();
+  }
+
+  addTaskBtn.addEventListener("click", addTask);
+  addNoteBtn.addEventListener("click", addNote);
+
   renderTasks();
-}
-
-function toggleTask(index) {
-  tasks[index].completed = !tasks[index].completed;
-  renderTasks();
-}
-
-function deleteTask(index) {
-  tasks.splice(index, 1);
-  renderTasks();
-}
-
-function updateStats() {
-  totalTasks.textContent = tasks.length;
-  completedTasks.textContent = tasks.filter(t => t.completed).length;
-  pendingTasks.textContent = tasks.filter(t => !t.completed).length;
-}
-
-function clearAllTasks() {
-  tasks = [];
-  renderTasks();
-}
-
-addTaskBtn.addEventListener("click", addTask);
-taskInput.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") addTask();
+  renderNotes();
 });
-filterTasks.addEventListener("change", renderTasks);
-clearAll.addEventListener("click", clearAllTasks);
-
-renderTasks();

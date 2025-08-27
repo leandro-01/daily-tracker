@@ -8,37 +8,32 @@
 </head>
 <body>
   <div class="app-container">
-    <h1>📅 Daily Tracker</h1>
+    <h1>Daily Tracker</h1>
 
-    <div class="input-section">
-      <input type="text" id="taskInput" placeholder="Digite sua tarefa...">
-      <select id="prioritySelect">
-        <option value="baixa">Baixa</option>
-        <option value="media">Média</option>
-        <option value="alta">Alta</option>
-      </select>
-      <button id="addTaskBtn">Adicionar</button>
+    <div class="tracker-section">
+      <h2>Tarefas</h2>
+      <div class="input-group">
+        <input type="text" id="taskInput" placeholder="Adicionar nova tarefa">
+        <button id="addTaskBtn">Adicionar</button>
+      </div>
+      <ul id="taskList"></ul>
     </div>
 
-    <div class="filter-section">
-      <select id="filterTasks">
-        <option value="all">Todas</option>
-        <option value="completed">Concluídas</option>
-        <option value="pending">Pendentes</option>
-      </select>
+    <div class="tracker-section">
+      <h2>Notas Rápidas</h2>
+      <div class="input-group">
+        <input type="text" id="noteInput" placeholder="Escreva uma nota rápida">
+        <button id="addNoteBtn">Salvar Nota</button>
+      </div>
+      <ul id="noteList"></ul>
     </div>
 
-    <ul id="taskList"></ul>
-
-    <div class="stats">
-      <p>Total: <span id="totalTasks">0</span></p>
-      <p>Concluídas: <span id="completedTasks">0</span></p>
-      <p>Pendentes: <span id="pendingTasks">0</span></p>
+    <div class="tracker-section">
+      <h2>Progresso</h2>
+      <progress id="progressBar" value="0" max="100"></progress>
+      <p id="progressText">0% concluído</p>
     </div>
-
-    <button id="clearAll">Limpar Tudo</button>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>
