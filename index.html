@@ -7,33 +7,35 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="app-container">
-    <h1>Daily Tracker</h1>
+  <div class="container">
+    <h1>📅 Daily Tracker</h1>
+    <p>Registre suas atividades diárias e acompanhe seu progresso!</p>
 
-    <div class="tracker-section">
-      <h2>Tarefas</h2>
-      <div class="input-group">
-        <input type="text" id="taskInput" placeholder="Adicionar nova tarefa">
-        <button id="addTaskBtn">Adicionar</button>
-      </div>
-      <ul id="taskList"></ul>
+    <div class="input-area">
+      <input type="text" id="taskInput" placeholder="Digite sua tarefa...">
+      <button id="addTaskBtn">Adicionar</button>
     </div>
 
-    <div class="tracker-section">
-      <h2>Notas Rápidas</h2>
-      <div class="input-group">
-        <input type="text" id="noteInput" placeholder="Escreva uma nota rápida">
-        <button id="addNoteBtn">Salvar Nota</button>
-      </div>
-      <ul id="noteList"></ul>
-    </div>
+    <ul id="taskList"></ul>
 
-    <div class="tracker-section">
+    <div class="progress-area">
       <h2>Progresso</h2>
-      <progress id="progressBar" value="0" max="100"></progress>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
       <p id="progressText">0% concluído</p>
     </div>
+
+    <div class="history-area">
+      <h2>Histórico</h2>
+      <ul id="historyList"></ul>
+    </div>
+
+    <div class="controls">
+      <button id="clearAllBtn">Limpar Tudo</button>
+    </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
