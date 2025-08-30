@@ -7,32 +7,18 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>📅 Daily Tracker</h1>
-    <p>Registre suas atividades diárias e acompanhe seu progresso!</p>
-
-    <div class="input-area">
-      <input type="text" id="taskInput" placeholder="Digite sua tarefa...">
+  <div class="app-container">
+    <h1>Daily Tracker ✅</h1>
+    
+    <div class="input-group">
+      <input type="text" id="taskInput" placeholder="Digite uma tarefa...">
       <button id="addTaskBtn">Adicionar</button>
     </div>
 
     <ul id="taskList"></ul>
 
-    <div class="progress-area">
-      <h2>Progresso</h2>
-      <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-      <p id="progressText">0% concluído</p>
-    </div>
-
-    <div class="history-area">
-      <h2>Histórico</h2>
-      <ul id="historyList"></ul>
-    </div>
-
-    <div class="controls">
-      <button id="clearAllBtn">Limpar Tudo</button>
+    <div class="actions">
+      <button id="resetBtn">Resetar Lista</button>
     </div>
   </div>
 
