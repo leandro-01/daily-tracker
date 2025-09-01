@@ -1,77 +1,100 @@
-const taskInput = document.getElementById("taskInput");
-const addTaskBtn = document.getElementById("addTaskBtn");
-const taskList = document.getElementById("taskList");
+const tarefaInput = document.getElementById("tarefaInput");
+const addBtn = document.getElementById("addBtn");
+const listaTarefas = document.getElementById("listaTarefas");
+const limparBtn = document.getElementById("limparBtn");
+const toggleTema = document.getElementById("toggleTema");
 
-// Carregar tarefas salvas
-document.addEventListener("DOMContentLoaded", loadTasks);
+// Carregar tema salvo
+document.addEventListener("DOMContentLoaded", () => {
+  const temaSalvo = localStorage.getItem("tema");
+  if (temaSalvo === "escuro") {
+    document.body.classList.add("tema-escuro");
+    toggleTema.textContent = "☀️";
+  }
+  carregarTarefas();
+});
 
-addTaskBtn.addEventListener("click", addTask);
-taskList.addEventListener("click", handleTaskActions);
+addBtn.addEventListener("click", adicionarTarefa);
+tarefaInput.addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    adicionarTarefa();
+  }
+});
+limparBtn.addEventListener("click", limparTarefas);
+toggleTema.addEventListener("click", mudarTema);
 
-function addTask() {
-  const taskText = taskInput.value.trim();
-  if (taskText === "") return;
+function adicionarTarefa() {
+  const texto = tarefaInput.value.trim();
+  if (texto === "") return;
 
-  const task = {
-    text: taskText,
-    completed: false
-  };
+  const tarefa = { texto: texto, concluida: false };
+  salvarTarefa(tarefa);
+  renderizarTarefas();
 
-  saveTask(task);
-  renderTask(task);
-  taskInput.value = "";
+  tarefaInput.value = "";
 }
 
-function renderTask(task) {
-  const li = document.createElement("li");
-  li.textContent = task.text;
-  if (task.completed) li.classList.add("completed");
+function salvarTarefa(tarefa) {
+  const tarefas = obterTarefas();
+  tarefas.push(tarefa);
+  localStorage.setItem("tarefas", JSON.stringify(tarefas));
+}
 
-  // clique para marcar/desmarcar
-  li.addEventListener("click", () => {
-    li.classList.toggle("completed");
-    updateTaskStatus(task.text, li.classList.contains("completed"));
+function obterTarefas() {
+  return JSON.parse(localStorage.getItem("tarefas")) || [];
+}
+
+function carregarTarefas() {
+  renderizarTarefas();
+}
+
+function renderizarTarefas() {
+  listaTarefas.innerHTML = "";
+  const tarefas = obterTarefas();
+
+  tarefas.forEach((tarefa, index) => {
+    const li = document.createElement("li");
+    li.textContent = tarefa.texto;
+
+    if (tarefa.concluida) {
+      li.classList.add("concluida");
+    }
+
+    li.addEventListener("click", () => {
+      tarefas[index].concluida = !tarefas[index].concluida;
+      localStorage.setItem("tarefas", JSON.stringify(tarefas));
+      renderizarTarefas();
+    });
+
+    const btnRemover = document.createElement("button");
+    btnRemover.textContent = "Remover";
+    btnRemover.classList.add("remove");
+    btnRemover.addEventListener("click", (e) => {
+      e.stopPropagation();
+      tarefas.splice(index, 1);
+      localStorage.setItem("tarefas", JSON.stringify(tarefas));
+      renderizarTarefas();
+    });
+
+    li.appendChild(btnRemover);
+    listaTarefas.appendChild(li);
   });
-
-  const removeBtn = document.createElement("button");
-  removeBtn.textContent = "Remover";
-  removeBtn.classList.add("remove-btn");
-  removeBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    li.remove();
-    removeTask(task.text);
-  });
-
-  li.appendChild(removeBtn);
-  taskList.appendChild(li);
 }
 
-function saveTask(task) {
-  const tasks = getTasks();
-  tasks.push(task);
-  localStorage.setItem("tasks", JSON.stringify(tasks));
+function limparTarefas() {
+  localStorage.removeItem("tarefas");
+  renderizarTarefas();
 }
 
-function getTasks() {
-  return JSON.parse(localStorage.getItem("tasks")) || [];
-}
+function mudarTema() {
+  document.body.classList.toggle("tema-escuro");
+  const escuroAtivo = document.body.classList.contains("tema-escuro");
 
-function loadTasks() {
-  const tasks = getTasks();
-  tasks.forEach(renderTask);
-}
-
-function removeTask(taskText) {
-  let tasks = getTasks();
-  tasks = tasks.filter(t => t.text !== taskText);
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-}
-
-function updateTaskStatus(taskText, completed) {
-  const tasks = getTasks();
-  const task = tasks.find(t => t.text === taskText);
-  if (task) {
-    task.completed = completed;
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+  if (escuroAtivo) {
+    toggleTema.textContent = "☀️";
+    localStorage.setItem("tema", "escuro");
+  } else {
+    toggleTema.textContent = "🌙";
+    localStorage.setItem("tema", "claro");
   }
 }

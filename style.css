@@ -1,52 +1,109 @@
-body {
-  font-family: Arial, sans-serif;
-  background: #f5f6fa;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
+:root {
+  --bg: #f4f4f9;
+  --texto: #000;
+  --card: #fff;
+  --borda: #ccc;
+  --primaria: #007bff;
+  --primaria-hover: #0056b3;
+  --perigo: #dc3545;
+  --perigo-hover: #a71d2a;
 }
 
-.app {
-  background: #fff;
-  padding: 20px 25px;
+body.tema-escuro {
+  --bg: #121212;
+  --texto: #eaeaea;
+  --card: #1e1e1e;
+  --borda: #333;
+  --primaria: #0d6efd;
+  --primaria-hover: #0a58ca;
+  --perigo: #dc3545;
+  --perigo-hover: #a71d2a;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--texto);
+  margin: 0;
+  padding: 0;
+  transition: background 0.3s, color 0.3s;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: 100%;
+  max-width: 500px;
+  margin: 50px auto;
+  background: var(--card);
+  padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  width: 350px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: background 0.3s;
+}
+
+.topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 h1 {
-  margin: 0 0 20px;
-  text-align: center;
-  color: #2f3640;
+  margin: 0;
 }
 
-.task-input {
+#toggleTema {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: var(--primaria);
+  color: #fff;
+  transition: background 0.2s;
+}
+
+#toggleTema:hover {
+  background: var(--primaria-hover);
+}
+
+.input-area {
   display: flex;
   gap: 10px;
+  margin-top: 20px;
 }
 
-#taskInput {
+input {
   flex: 1;
   padding: 10px;
-  border: 1px solid #dcdde1;
   border-radius: 8px;
-  outline: none;
+  border: 1px solid var(--borda);
+  background: var(--card);
+  color: var(--texto);
 }
 
-#addTaskBtn {
-  background: #00a8ff;
-  color: #fff;
-  border: none;
+button {
   padding: 10px 15px;
+  border: none;
+  background: var(--primaria);
+  color: #fff;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.2s;
 }
 
-#addTaskBtn:hover {
-  background: #0097e6;
+button:hover {
+  background: var(--primaria-hover);
+}
+
+.limpar {
+  width: 100%;
+  margin-top: 15px;
+  background: var(--perigo);
+}
+
+.limpar:hover {
+  background: var(--perigo-hover);
 }
 
 ul {
@@ -56,29 +113,41 @@ ul {
 }
 
 li {
-  background: #f1f2f6;
-  margin-bottom: 10px;
+  background: var(--bg);
   padding: 10px;
+  margin-bottom: 10px;
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border: 1px solid var(--borda);
 }
 
-li.completed {
+li.concluida {
   text-decoration: line-through;
-  opacity: 0.6;
+  color: #6c757d;
 }
 
-button.remove-btn {
-  background: #e84118;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
+.remove {
+  background: var(--perigo);
   padding: 5px 10px;
-  cursor: pointer;
+  border-radius: 6px;
 }
 
-button.remove-btn:hover {
-  background: #c23616;
+.remove:hover {
+  background: var(--perigo-hover);
+}
+
+/* Rodapé */
+footer {
+  margin-top: auto;
+  text-align: center;
+  padding: 15px;
+  background: var(--card);
+  color: var(--texto);
+  border-top: 1px solid var(--borda);
+}
+
+.coracao {
+  color: red;
 }

@@ -7,14 +7,23 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="app">
-    <h1>Daily Tracker</h1>
-    <div class="task-input">
-      <input type="text" id="taskInput" placeholder="Adicionar nova tarefa...">
-      <button id="addTaskBtn">Adicionar</button>
+  <div class="container">
+    <div class="topo">
+      <h1>Daily Tracker</h1>
+      <button id="toggleTema">🌙</button>
     </div>
-    <ul id="taskList"></ul>
+    <div class="input-area">
+      <input type="text" id="tarefaInput" placeholder="Digite uma tarefa...">
+      <button id="addBtn">Adicionar</button>
+    </div>
+    <ul id="listaTarefas"></ul>
+    <button id="limparBtn" class="limpar">Limpar todas</button>
   </div>
+
+  <footer>
+    <p>Feito com <span class="coracao">❤</span> por Leandro</p>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
