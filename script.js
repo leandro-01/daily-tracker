@@ -1,100 +1,86 @@
-const tarefaInput = document.getElementById("tarefaInput");
-const addBtn = document.getElementById("addBtn");
-const listaTarefas = document.getElementById("listaTarefas");
-const limparBtn = document.getElementById("limparBtn");
-const toggleTema = document.getElementById("toggleTema");
+// Seleciona elementos do DOM
+const taskInput = document.getElementById("taskInput");
+const addTaskBtn = document.getElementById("addTask");
+const taskList = document.getElementById("taskList");
+const toggleThemeBtn = document.getElementById("toggleTheme");
 
-// Carregar tema salvo
-document.addEventListener("DOMContentLoaded", () => {
-  const temaSalvo = localStorage.getItem("tema");
-  if (temaSalvo === "escuro") {
-    document.body.classList.add("tema-escuro");
-    toggleTema.textContent = "☀️";
-  }
-  carregarTarefas();
-});
+// --------------------
+// Gerenciamento do tema
+// --------------------
 
-addBtn.addEventListener("click", adicionarTarefa);
-tarefaInput.addEventListener("keypress", function(e) {
-  if (e.key === "Enter") {
-    adicionarTarefa();
-  }
-});
-limparBtn.addEventListener("click", limparTarefas);
-toggleTema.addEventListener("click", mudarTema);
-
-function adicionarTarefa() {
-  const texto = tarefaInput.value.trim();
-  if (texto === "") return;
-
-  const tarefa = { texto: texto, concluida: false };
-  salvarTarefa(tarefa);
-  renderizarTarefas();
-
-  tarefaInput.value = "";
+// Carrega tema salvo no LocalStorage
+if (localStorage.getItem("theme") === "dark") {
+  document.body.classList.add("dark");
 }
 
-function salvarTarefa(tarefa) {
-  const tarefas = obterTarefas();
-  tarefas.push(tarefa);
-  localStorage.setItem("tarefas", JSON.stringify(tarefas));
-}
+// Alterna entre modo claro e escuro
+toggleThemeBtn.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
 
-function obterTarefas() {
-  return JSON.parse(localStorage.getItem("tarefas")) || [];
-}
-
-function carregarTarefas() {
-  renderizarTarefas();
-}
-
-function renderizarTarefas() {
-  listaTarefas.innerHTML = "";
-  const tarefas = obterTarefas();
-
-  tarefas.forEach((tarefa, index) => {
-    const li = document.createElement("li");
-    li.textContent = tarefa.texto;
-
-    if (tarefa.concluida) {
-      li.classList.add("concluida");
-    }
-
-    li.addEventListener("click", () => {
-      tarefas[index].concluida = !tarefas[index].concluida;
-      localStorage.setItem("tarefas", JSON.stringify(tarefas));
-      renderizarTarefas();
-    });
-
-    const btnRemover = document.createElement("button");
-    btnRemover.textContent = "Remover";
-    btnRemover.classList.add("remove");
-    btnRemover.addEventListener("click", (e) => {
-      e.stopPropagation();
-      tarefas.splice(index, 1);
-      localStorage.setItem("tarefas", JSON.stringify(tarefas));
-      renderizarTarefas();
-    });
-
-    li.appendChild(btnRemover);
-    listaTarefas.appendChild(li);
-  });
-}
-
-function limparTarefas() {
-  localStorage.removeItem("tarefas");
-  renderizarTarefas();
-}
-
-function mudarTema() {
-  document.body.classList.toggle("tema-escuro");
-  const escuroAtivo = document.body.classList.contains("tema-escuro");
-
-  if (escuroAtivo) {
-    toggleTema.textContent = "☀️";
-    localStorage.setItem("tema", "escuro");
+  // Salva a preferência no LocalStorage
+  if (document.body.classList.contains("dark")) {
+    localStorage.setItem("theme", "dark");
   } else {
-    toggleTema.textContent = "🌙";
-    localStorage.setItem("tema", "claro");
+    localStorage.setItem("theme", "light");
   }
+});
+
+// --------------------
+// Funções de tarefas
+// --------------------
+
+// Carrega tarefas do LocalStorage e renderiza na tela
+function loadTasks() {
+  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  tasks.forEach(task => renderTask(task));
 }
+
+// Salva todas as tarefas atuais no LocalStorage
+function saveTasks() {
+  const tasks = [];
+  document.querySelectorAll("#taskList li span").forEach(span => {
+    tasks.push(span.textContent);
+  });
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+// Renderiza uma tarefa na lista
+function renderTask(text) {
+  const li = document.createElement("li");
+
+  // Span para o texto da tarefa
+  const span = document.createElement("span");
+  span.textContent = text;
+
+  // Botão de remover tarefa
+  const removeBtn = document.createElement("button");
+  removeBtn.textContent = "Remover";
+  removeBtn.addEventListener("click", () => {
+    li.remove();  // Remove do DOM
+    saveTasks();  // Atualiza LocalStorage
+  });
+
+  li.appendChild(span);
+  li.appendChild(removeBtn);
+  taskList.appendChild(li);
+}
+
+// Adiciona tarefa ao clicar no botão
+addTaskBtn.addEventListener("click", () => {
+  const text = taskInput.value.trim();
+  if (text !== "") {
+    renderTask(text);
+    saveTasks(); // Salva no LocalStorage
+    taskInput.value = ""; // Limpa input
+  }
+});
+
+// Permite adicionar tarefa pressionando Enter
+taskInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    addTaskBtn.click();
+  }
+});
+
+// Inicializa carregando as tarefas
+loadTasks();

@@ -1,153 +1,112 @@
+/* Variáveis de cores para modo claro e escuro */
 :root {
-  --bg: #f4f4f9;
-  --texto: #000;
-  --card: #fff;
-  --borda: #ccc;
-  --primaria: #007bff;
-  --primaria-hover: #0056b3;
-  --perigo: #dc3545;
-  --perigo-hover: #a71d2a;
+  --bg-color: #f4f4f4;
+  --text-color: #333;
+  --task-bg: #fff;
+  --button-bg: #007bff;
+  --button-text: #fff;
 }
 
-body.tema-escuro {
-  --bg: #121212;
-  --texto: #eaeaea;
-  --card: #1e1e1e;
-  --borda: #333;
-  --primaria: #0d6efd;
-  --primaria-hover: #0a58ca;
-  --perigo: #dc3545;
-  --perigo-hover: #a71d2a;
+body.dark {
+  --bg-color: #121212;
+  --text-color: #f4f4f4;
+  --task-bg: #1e1e1e;
+  --button-bg: #4cafef;
+  --button-text: #000;
 }
 
+/* Estilo geral do body */
 body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
   font-family: Arial, sans-serif;
-  background: var(--bg);
-  color: var(--texto);
-  margin: 0;
-  padding: 0;
-  transition: background 0.3s, color 0.3s;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
 }
 
+/* Container principal */
 .container {
   width: 100%;
   max-width: 500px;
-  margin: 50px auto;
-  background: var(--card);
+  background: var(--task-bg);
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  transition: background 0.3s;
-}
-
-.topo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 h1 {
-  margin: 0;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-#toggleTema {
-  padding: 5px 10px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: var(--primaria);
-  color: #fff;
-  transition: background 0.2s;
-}
-
-#toggleTema:hover {
-  background: var(--primaria-hover);
-}
-
-.input-area {
+/* Área de input de tarefa */
+.task-input {
   display: flex;
   gap: 10px;
-  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
-input {
+.task-input input {
   flex: 1;
   padding: 10px;
   border-radius: 8px;
-  border: 1px solid var(--borda);
-  background: var(--card);
-  color: var(--texto);
+  border: 1px solid #ccc;
 }
 
-button {
-  padding: 10px 15px;
+.task-input button {
+  background: var(--button-bg);
+  color: var(--button-text);
   border: none;
-  background: var(--primaria);
-  color: #fff;
+  padding: 10px 15px;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s;
 }
 
-button:hover {
-  background: var(--primaria-hover);
+.task-input button:hover {
+  opacity: 0.9;
 }
 
-.limpar {
-  width: 100%;
-  margin-top: 15px;
-  background: var(--perigo);
-}
-
-.limpar:hover {
-  background: var(--perigo-hover);
-}
-
-ul {
+/* Lista de tarefas */
+#taskList {
   list-style: none;
   padding: 0;
-  margin-top: 20px;
 }
 
-li {
-  background: var(--bg);
+#taskList li {
+  background: var(--bg-color);
+  color: var(--text-color);
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid var(--borda);
 }
 
-li.concluida {
-  text-decoration: line-through;
-  color: #6c757d;
-}
-
-.remove {
-  background: var(--perigo);
+#taskList button {
+  background: crimson;
+  color: white;
+  border: none;
+  border-radius: 8px;
   padding: 5px 10px;
-  border-radius: 6px;
+  cursor: pointer;
 }
 
-.remove:hover {
-  background: var(--perigo-hover);
+#taskList button:hover {
+  opacity: 0.8;
+}
+
+/* Botão de alternar tema */
+.theme-toggle {
+  text-align: right;
+  margin-bottom: 15px;
 }
 
 /* Rodapé */
 footer {
-  margin-top: auto;
   text-align: center;
-  padding: 15px;
-  background: var(--card);
-  color: var(--texto);
-  border-top: 1px solid var(--borda);
-}
-
-.coracao {
-  color: red;
+  margin-top: 20px;
+  font-size: 14px;
+  opacity: 0.7;
 }

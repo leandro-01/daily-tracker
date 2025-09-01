@@ -8,21 +8,27 @@
 </head>
 <body>
   <div class="container">
-    <div class="topo">
-      <h1>Daily Tracker</h1>
-      <button id="toggleTema">🌙</button>
+    <h1>Daily Tracker</h1>
+    
+    <!-- Botão para alternar entre modo claro e escuro -->
+    <div class="theme-toggle">
+      <button id="toggleTheme">🌙 Alternar tema</button>
     </div>
-    <div class="input-area">
-      <input type="text" id="tarefaInput" placeholder="Digite uma tarefa...">
-      <button id="addBtn">Adicionar</button>
-    </div>
-    <ul id="listaTarefas"></ul>
-    <button id="limparBtn" class="limpar">Limpar todas</button>
-  </div>
 
-  <footer>
-    <p>Feito com <span class="coracao">❤</span> por Leandro</p>
-  </footer>
+    <!-- Input e botão para adicionar tarefas -->
+    <div class="task-input">
+      <input type="text" id="taskInput" placeholder="Digite uma tarefa...">
+      <button id="addTask">Adicionar</button>
+    </div>
+
+    <!-- Lista de tarefas -->
+    <ul id="taskList"></ul>
+
+    <!-- Rodapé com assinatura -->
+    <footer>
+      <p>feito com &lt;3 por Leandro</p>
+    </footer>
+  </div>
 
   <script src="script.js"></script>
 </body>
