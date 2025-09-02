@@ -1,86 +1,105 @@
-// Seleciona elementos do DOM
-const taskInput = document.getElementById("taskInput");
-const addTaskBtn = document.getElementById("addTask");
-const taskList = document.getElementById("taskList");
-const toggleThemeBtn = document.getElementById("toggleTheme");
+// Seleção de elementos principais
+const input = document.getElementById("nova-tarefa");
+const botaoAdicionar = document.getElementById("adicionar");
+const lista = document.getElementById("lista-tarefas");
+const botaoTema = document.getElementById("alternar-tema");
 
-// --------------------
-// Gerenciamento do tema
-// --------------------
+// Carregar tarefas do LocalStorage ao iniciar
+document.addEventListener("DOMContentLoaded", carregarTarefas);
 
-// Carrega tema salvo no LocalStorage
-if (localStorage.getItem("theme") === "dark") {
-  document.body.classList.add("dark");
-}
+// Adicionar nova tarefa ao clicar no botão
+botaoAdicionar.addEventListener("click", adicionarTarefa);
 
-// Alterna entre modo claro e escuro
-toggleThemeBtn.addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-
-  // Salva a preferência no LocalStorage
-  if (document.body.classList.contains("dark")) {
-    localStorage.setItem("theme", "dark");
-  } else {
-    localStorage.setItem("theme", "light");
+// Também adicionar ao pressionar Enter
+input.addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    adicionarTarefa();
   }
 });
 
-// --------------------
-// Funções de tarefas
-// --------------------
+// Alternar tema claro/escuro
+botaoTema.addEventListener("click", () => {
+  document.body.classList.toggle("escuro");
+});
 
-// Carrega tarefas do LocalStorage e renderiza na tela
-function loadTasks() {
-  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-  tasks.forEach(task => renderTask(task));
+// Função para adicionar tarefa
+function adicionarTarefa() {
+  const texto = input.value.trim();
+  if (texto === "") return;
+
+  criarElementoTarefa(texto);
+  salvarTarefas();
+  input.value = "";
 }
 
-// Salva todas as tarefas atuais no LocalStorage
-function saveTasks() {
-  const tasks = [];
-  document.querySelectorAll("#taskList li span").forEach(span => {
-    tasks.push(span.textContent);
-  });
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-}
-
-// Renderiza uma tarefa na lista
-function renderTask(text) {
+// Função para criar um item da lista de tarefas
+function criarElementoTarefa(texto) {
   const li = document.createElement("li");
 
-  // Span para o texto da tarefa
+  // Texto da tarefa (clicável para editar)
   const span = document.createElement("span");
-  span.textContent = text;
+  span.textContent = texto;
 
-  // Botão de remover tarefa
-  const removeBtn = document.createElement("button");
-  removeBtn.textContent = "Remover";
-  removeBtn.addEventListener("click", () => {
-    li.remove();  // Remove do DOM
-    saveTasks();  // Atualiza LocalStorage
+  // Ao clicar no texto, habilita edição
+  span.addEventListener("click", () => editarTarefa(span));
+
+  // Botão remover
+  const botaoRemover = document.createElement("button");
+  botaoRemover.textContent = "Remover";
+  botaoRemover.classList.add("remover");
+  botaoRemover.addEventListener("click", () => {
+    li.remove();
+    salvarTarefas();
   });
 
   li.appendChild(span);
-  li.appendChild(removeBtn);
-  taskList.appendChild(li);
+  li.appendChild(botaoRemover);
+  lista.appendChild(li);
 }
 
-// Adiciona tarefa ao clicar no botão
-addTaskBtn.addEventListener("click", () => {
-  const text = taskInput.value.trim();
-  if (text !== "") {
-    renderTask(text);
-    saveTasks(); // Salva no LocalStorage
-    taskInput.value = ""; // Limpa input
-  }
-});
+// Função para editar uma tarefa
+function editarTarefa(span) {
+  const textoAtual = span.textContent;
+  const inputEdicao = document.createElement("input");
+  inputEdicao.type = "text";
+  inputEdicao.value = textoAtual;
+  inputEdicao.classList.add("input-edicao");
 
-// Permite adicionar tarefa pressionando Enter
-taskInput.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") {
-    addTaskBtn.click();
-  }
-});
+  // Substitui o span pelo input
+  span.replaceWith(inputEdicao);
+  inputEdicao.focus();
 
-// Inicializa carregando as tarefas
-loadTasks();
+  // Salvar edição ao pressionar Enter ou sair do foco
+  inputEdicao.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") finalizarEdicao(inputEdicao);
+  });
+  inputEdicao.addEventListener("blur", () => finalizarEdicao(inputEdicao));
+}
+
+// Finalizar edição e voltar ao span
+function finalizarEdicao(inputEdicao) {
+  const novoTexto = inputEdicao.value.trim();
+  const span = document.createElement("span");
+  span.textContent = novoTexto !== "" ? novoTexto : "Tarefa sem nome";
+
+  // Reaplicar evento de edição
+  span.addEventListener("click", () => editarTarefa(span));
+
+  inputEdicao.replaceWith(span);
+  salvarTarefas();
+}
+
+// Função para salvar tarefas no LocalStorage
+function salvarTarefas() {
+  const tarefas = [];
+  document.querySelectorAll("#lista-tarefas li span").forEach(span => {
+    tarefas.push(span.textContent);
+  });
+  localStorage.setItem("tarefas", JSON.stringify(tarefas));
+}
+
+// Função para carregar tarefas salvas
+function carregarTarefas() {
+  const tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
+  tarefas.forEach(tarefa => criarElementoTarefa(tarefa));
+}

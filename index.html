@@ -7,29 +7,26 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
+  <div class="app">
     <h1>Daily Tracker</h1>
-    
-    <!-- Botão para alternar entre modo claro e escuro -->
-    <div class="theme-toggle">
-      <button id="toggleTheme">🌙 Alternar tema</button>
-    </div>
 
-    <!-- Input e botão para adicionar tarefas -->
-    <div class="task-input">
-      <input type="text" id="taskInput" placeholder="Digite uma tarefa...">
-      <button id="addTask">Adicionar</button>
+    <!-- Campo de entrada de nova tarefa -->
+    <div class="input-container">
+      <input type="text" id="nova-tarefa" placeholder="Digite uma tarefa">
+      <button id="adicionar">Adicionar</button>
     </div>
 
     <!-- Lista de tarefas -->
-    <ul id="taskList"></ul>
+    <ul id="lista-tarefas"></ul>
 
-    <!-- Rodapé com assinatura -->
+    <!-- Botão para alternar entre modo claro e escuro -->
+    <button id="alternar-tema">Alternar tema</button>
+
+    <!-- Rodapé fixo -->
     <footer>
-      <p>feito com &lt;3 por Leandro</p>
+      feito com <span class="coracao">&lt;3</span> por Leandro
     </footer>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>

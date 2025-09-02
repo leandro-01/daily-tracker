@@ -1,112 +1,128 @@
-/* Variáveis de cores para modo claro e escuro */
-:root {
-  --bg-color: #f4f4f4;
-  --text-color: #333;
-  --task-bg: #fff;
-  --button-bg: #007bff;
-  --button-text: #fff;
-}
-
-body.dark {
-  --bg-color: #121212;
-  --text-color: #f4f4f4;
-  --task-bg: #1e1e1e;
-  --button-bg: #4cafef;
-  --button-text: #000;
-}
-
-/* Estilo geral do body */
+/* Estilo geral */
 body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
   font-family: Arial, sans-serif;
+  background-color: var(--fundo);
+  color: var(--texto);
+  margin: 0;
+  padding: 0;
   display: flex;
   justify-content: center;
-  padding: 20px;
+  align-items: center;
+  height: 100vh;
 }
 
-/* Container principal */
-.container {
+.app {
   width: 100%;
-  max-width: 500px;
-  background: var(--task-bg);
+  max-width: 400px;
+  background: var(--caixa);
   padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 20px;
 }
 
-/* Área de input de tarefa */
-.task-input {
+/* Input e botão de adicionar */
+.input-container {
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
-.task-input input {
+#nova-tarefa {
   flex: 1;
-  padding: 10px;
-  border-radius: 8px;
+  padding: 8px;
   border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
 }
 
-.task-input button {
-  background: var(--button-bg);
-  color: var(--button-text);
+#adicionar {
+  padding: 8px 12px;
   border: none;
-  padding: 10px 15px;
-  border-radius: 8px;
+  background: #007bff;
+  color: white;
+  border-radius: 0 5px 5px 0;
   cursor: pointer;
 }
 
-.task-input button:hover {
-  opacity: 0.9;
+#adicionar:hover {
+  background: #0056b3;
 }
 
 /* Lista de tarefas */
-#taskList {
+ul {
   list-style: none;
   padding: 0;
 }
 
-#taskList li {
-  background: var(--bg-color);
-  color: var(--text-color);
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 8px;
+li {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: var(--item);
+  margin-bottom: 8px;
+  padding: 8px;
+  border-radius: 5px;
 }
 
-#taskList button {
-  background: crimson;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 5px 10px;
+li span {
+  flex: 1;
   cursor: pointer;
 }
 
-#taskList button:hover {
-  opacity: 0.8;
+button.remover {
+  background: red;
+  border: none;
+  color: white;
+  padding: 5px 8px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-/* Botão de alternar tema */
-.theme-toggle {
-  text-align: right;
-  margin-bottom: 15px;
+button.remover:hover {
+  background: darkred;
+}
+
+/* Botão de tema */
+#alternar-tema {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background: #6c757d;
+  color: white;
+  cursor: pointer;
+}
+
+#alternar-tema:hover {
+  background: #5a6268;
 }
 
 /* Rodapé */
 footer {
-  text-align: center;
   margin-top: 20px;
+  text-align: center;
   font-size: 14px;
-  opacity: 0.7;
+}
+
+.coracao {
+  color: red;
+}
+
+/* Tema claro */
+:root {
+  --fundo: #f4f4f4;
+  --texto: #333;
+  --caixa: #fff;
+  --item: #eaeaea;
+}
+
+/* Tema escuro */
+body.escuro {
+  --fundo: #181818;
+  --texto: #f4f4f4;
+  --caixa: #242424;
+  --item: #333;
 }
