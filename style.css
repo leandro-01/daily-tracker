@@ -1,128 +1,154 @@
-/* Estilo geral */
+/* Estilo base da página */
 body {
   font-family: Arial, sans-serif;
-  background-color: var(--fundo);
-  color: var(--texto);
   margin: 0;
   padding: 0;
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* Cabeçalho */
+header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  height: 100vh;
-}
-
-.app {
-  width: 100%;
-  max-width: 400px;
-  background: var(--caixa);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
-}
-
-h1 {
-  text-align: center;
-}
-
-/* Input e botão de adicionar */
-.input-container {
-  display: flex;
-  margin-bottom: 15px;
-}
-
-#nova-tarefa {
-  flex: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px 0 0 5px;
-}
-
-#adicionar {
-  padding: 8px 12px;
-  border: none;
-  background: #007bff;
+  padding: 10px 20px;
+  background-color: #547cd7;
   color: white;
-  border-radius: 0 5px 5px 0;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+#theme-toggle {
+  font-size: 1.3rem;
+  background: none;
+  border: none;
   cursor: pointer;
 }
 
-#adicionar:hover {
-  background: #0056b3;
+/* Área principal */
+main {
+  flex: 1;
+  padding: 20px;
+}
+
+.input-area {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+#task-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#add-task {
+  padding: 10px 15px;
+  border: none;
+  background-color: #547cd7;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#add-task:hover {
+  background-color: #547cd7;
 }
 
 /* Lista de tarefas */
-ul {
+#task-list {
   list-style: none;
   padding: 0;
 }
 
-li {
+.task-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--item);
-  margin-bottom: 8px;
   padding: 8px;
+  margin-bottom: 8px;
+  background: #eee;
   border-radius: 5px;
 }
 
-li span {
-  flex: 1;
-  cursor: pointer;
+.task-buttons {
+  display: flex;
+  gap: 5px;
 }
 
-button.remover {
-  background: red;
-  border: none;
-  color: white;
-  padding: 5px 8px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button.remover:hover {
-  background: darkred;
-}
-
-/* Botão de tema */
-#alternar-tema {
-  margin-top: 15px;
-  width: 100%;
-  padding: 10px;
+.edit-btn, .delete-btn {
+  width: 28px;
+  height: 28px;
   border: none;
   border-radius: 5px;
-  background: #6c757d;
-  color: white;
+  background-color: #ccc;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#alternar-tema:hover {
-  background: #5a6268;
+.edit-btn:hover, .delete-btn:hover {
+  background-color: #aaa;
+}
+
+.edit-btn svg, .delete-btn svg {
+  width: 14px;
+  height: 14px;
+  fill: black;
 }
 
 /* Rodapé */
 footer {
-  margin-top: 20px;
   text-align: center;
-  font-size: 14px;
+  padding: 15px;
+  background: #547cd7;
+  color: white;
+  margin-top: auto;
 }
 
-.coracao {
+.heart {
   color: red;
 }
 
-/* Tema claro */
-:root {
-  --fundo: #f4f4f4;
-  --texto: #333;
-  --caixa: #fff;
-  --item: #eaeaea;
+/* Tema escuro */
+body.dark {
+  background-color: #121212;
+  color: #e0e0e0;
 }
 
-/* Tema escuro */
-body.escuro {
-  --fundo: #181818;
-  --texto: #f4f4f4;
-  --caixa: #242424;
-  --item: #333;
+body.dark header,
+body.dark footer {
+  background-color: #1e1e1e;
+}
+
+body.dark #add-task {
+  background-color: #547cd7;
+}
+
+body.dark #add-task:hover {
+  background-color: #547cd7;
+}
+
+body.dark .task-item {
+  background: #333;
+}
+
+body.dark .edit-btn,
+body.dark .delete-btn {
+  background-color: #555;
+}
+
+body.dark .edit-btn:hover,
+body.dark .delete-btn:hover {
+  background-color: #777;
 }
